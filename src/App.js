@@ -5,18 +5,19 @@ import useFetch from './useFetch'
 
 function App() {
 
-  const {data, loading, error} = useFetch("https://seapi.link/?type=tmdb&id=634649&max_results=1");
-	const first = data?.results.filter(result => result.server == "upstream");
+  const {data, loading, error} = useFetch("?tmdb_id=634649");
+  console.log(data);
+  if (data) {
+    const deciphered = window.atob(data.pirate_link);
+    console.log(deciphered);
+  }
 
-  if (error || !first) return error;
+  if (error) return error;
   if (loading) return "loading...";
-
-	const video = first[0];
 
   return (
     <>
       <h3>LOL</h3>
-      <Player video={video}></Player>
     </>
   );
 

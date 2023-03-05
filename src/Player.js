@@ -7,15 +7,27 @@ export default function Player(video) {
   console.log(url);
   const {data} = useFetch(url);
   console.log(data);
-  if (data) {
-    console.log("RESPONSE");
-    const realLink = data.split("windows.atob(");
-    console.log(realLink);
-  }
-
   const [hlsUrl, setHlsUrl] = useState(
     video.url
   );
+
+  if (data) {
+    if (!data.includes("window.atob(")) {
+      const [before, after] = data.split('<meta name="robots" content="noindex,nofollow">');
+      const dataBase = before + '<base href='+url+'></base>' + after;
+      const [more, less] = dataBase.split(' method="post">');
+      const another = more + " action='"+url + "'" + less;
+      console.log(another);
+      return (
+        <iframe title={video.video.title} srcDoc={another}></iframe>
+      );
+    }
+
+    console.log("RESPONSE");
+    const realLink = data.split("window.atob(")[1].split("\"")[0];
+    console.log(realLink);
+  }
+
 
   return (
     <div className="row justify-content-center">
