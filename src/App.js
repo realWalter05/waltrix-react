@@ -1,23 +1,21 @@
 import React from 'react';
-import Player from './Player'
+import Navbar from './Navbar';
+import VideoBox from './VideoBox';
 import useFetch from './useFetch'
 
 
 function App() {
 
-  const {data, loading, error} = useFetch("?tmdb_id=634649");
+  const {data, loading, error} = useFetch("http://localhost:5000/get_api_links/?id=100088");
   console.log(data);
-  if (data) {
-    const deciphered = window.atob(data.pirate_link);
-    console.log(deciphered);
-  }
 
   if (error) return error;
   if (loading) return "loading...";
 
   return (
     <>
-      <h3>LOL</h3>
+      <Navbar></Navbar>
+      <VideoBox></VideoBox>
     </>
   );
 
